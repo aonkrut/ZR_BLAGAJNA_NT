@@ -1,0 +1,70 @@
+CREATE TABLE Zaposlenici (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ime VARCHAR(255) NOT NULL,
+    prezime VARCHAR(255) NOT NULL,
+    korisnicko_ime VARCHAR(255) NOT NULL UNIQUE,
+    lozinka VARCHAR(255) NOT NULL,
+    prva_prijava BOOLEAN DEFAULT TRUE
+);
+CREATE TABLE prava (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    pravo VARCHAR(255) NOT NULL UNIQUE,
+    
+);
+CREATE TABLE IF NOT EXISTS pravo (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    zaposlenik_id INT,
+    pravo_id INT,
+    FOREIGN KEY (zaposlenik_id) REFERENCES zaposlenici(id)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (pravo_id) REFERENCES prava(id)
+        ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB;
+
+CREATE TABLE Dobavljaci (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    naziv VARCHAR(255) NOT NULL,
+    adresa VARCHAR(255) NOT NULL,
+    kontakt VARCHAR(255) NOT NULL
+);
+
+
+
+CREATE TABLE Proizvodi (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    barcode VARCHAR(255) NOT NULL,
+    naziv VARCHAR(255) NOT NULL,
+    cijena DECIMAL(10, 2) NOT NULL,
+    kol_na_sklad INT NOT NULL,
+    min_kol INT NOT NULL,
+    dobavljac_id INT,
+    FOREIGN KEY (dobavljac_id) REFERENCES Dobavljaci(id)
+);
+
+
+
+
+
+
+
+CREATE TABLE IF NOT EXISTS status (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    status VARCHAR(255) UNIQUE NOT NULL
+);
+CREATE TABLE Status_racuna (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    racun_id INT,
+    status_id INT,
+    FOREIGN KEY (racun_id) REFERENCES Racun(id),
+    FOREIGN KEY (status_id) REFERENCES Status(id)
+);
+CREATE TABLE StavkaRacuna (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    proizvod_id INT,
+    kolicina INT,
+    cijena_po_jedinici DECIMAL(10,2),
+    racun_id INT,
+    FOREIGN KEY (proizvod_id) REFERENCES Proizvodi(id),
+    FOREIGN KEY (racun_id) REFERENCES Racun(id)
+);
+
