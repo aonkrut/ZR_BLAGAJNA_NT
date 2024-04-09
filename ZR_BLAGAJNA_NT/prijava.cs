@@ -10,6 +10,7 @@ namespace ZR_BLAGAJNA_NT {
 
         private UpraviteljBazom upraviteljBazom;
         public static string PrijavljeniZaposlenik = "";
+        public static int zap_id;
         public prijava()
         {
             InitializeComponent();
@@ -145,11 +146,30 @@ namespace ZR_BLAGAJNA_NT {
                                         }
                                         else
                                         {
-                                            PrijavljeniZaposlenik = cb_zaposlenici.SelectedItem?.ToString();
+                                            // Postavljanje globalne varijable zap_id na ID korisničkog imena koje se uspješno prijavilo
+                                            string sqlIdUpit = "SELECT id FROM Zaposlenici WHERE korisnicko_ime = @korisnickoIme";
+                                            using (MySqlConnection vezaId = new MySqlConnection(upraviteljBazom.VezaNaBazu))
+                                            {
+                                                vezaId.Open();
+                                                using (MySqlCommand idNaredba = new MySqlCommand(sqlIdUpit, vezaId))
+                                                {
+                                                    idNaredba.Parameters.AddWithValue("@korisnickoIme", korisnickoIme);
+                                                    object idObjekt = idNaredba.ExecuteScalar();
+                                                    if (idObjekt != null)
+                                                    {
+                                                        zap_id = Convert.ToInt32(idObjekt);
+                                                    }
+                                                    else
+                                                    {
+                                                        zap_id = 0;
+                                                        return;
+                                                    }
+                                                }
+                                            }
+
+                                            PrijavljeniZaposlenik = korisnickoIme;
                                             // Prikazi formu blagajna
                                             PrikaziFormuBlagajna(new blagajna());
-                                            
-                                            // Zatvori trenutnu formu
 
                                         }
                                     }

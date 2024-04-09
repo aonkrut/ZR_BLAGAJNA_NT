@@ -25,6 +25,53 @@ namespace ZR_BLAGAJNA_NT {
             
             PostaviPocetno();
         }
+        private void ProvjeriPravoBlagajna()
+        {
+            try
+            {
+                int zaposlenikId = DohvatiIdZaposlenika();
+
+                using (MySqlConnection veza = new MySqlConnection(upraviteljBazom.VezaNaBazu))
+                {
+                    veza.Open();
+
+                    string sqlUpit = "SELECT COUNT(*) FROM pravo WHERE zaposlenik_id = @zaposlenikId AND pravo_id = 1";
+
+                    using (MySqlCommand naredba = new MySqlCommand(sqlUpit, veza))
+                    {
+                        naredba.Parameters.AddWithValue("@zaposlenikId", zaposlenikId);
+
+                        int brojPrava = Convert.ToInt32(naredba.ExecuteScalar());
+
+                        if (brojPrava > 0)
+                        {
+                        }
+                        else
+                        {
+                            MessageBox.Show("Prijavljeni zaposlenik nema pravo ove radnje.");
+                            OnemoguciTipke();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Greška prilikom provjere prava: {ex.Message}");
+            }
+        }
+
+        private void OnemoguciTipke()
+        {
+            foreach (Control ctrl in this.Controls)
+            {
+                if (ctrl is Button)
+                {
+                    Button button = (Button)ctrl;
+                    button.Enabled = false;
+                }
+            }
+        }
+
 
         private void DohvatiProizvode()
         {
@@ -100,7 +147,7 @@ namespace ZR_BLAGAJNA_NT {
 
          private void PostaviPocetno()
          {
-            
+            ProvjeriPravoBlagajna();
             listView_popis_proizvoda.Items.Clear();
             listView_stavke.Items.Clear();
             DohvatiProizvode();
@@ -604,6 +651,9 @@ namespace ZR_BLAGAJNA_NT {
             }
         }
 
+        private void prijavljenzaposlenik_Click(object sender, EventArgs e)
+        {
 
+        }
     }
 }

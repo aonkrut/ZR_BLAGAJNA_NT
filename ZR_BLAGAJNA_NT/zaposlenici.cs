@@ -34,6 +34,7 @@ namespace ZR_BLAGAJNA_NT {
             InitializeComponent();  
             PostaviPocetno();
             listView_zaposlenici.View = View.Details;
+
         }
         private void bttn_spremi_Click(object sender, EventArgs e)
         {
@@ -48,6 +49,52 @@ namespace ZR_BLAGAJNA_NT {
             // Pozivanje funkcije za dodavanje novog zaposlenika
             Azuriraj_ili_Dodaj_Zaposlenika(id, ime, prezime, kime, lozinka);
             PostaviPocetno();
+        }
+        private void ProvjeriPravo()
+        {
+            try
+            {
+                
+
+                using (MySqlConnection veza = new MySqlConnection(upraviteljBazom.VezaNaBazu))
+                {
+                    veza.Open();
+
+                    string sqlUpit = "SELECT COUNT(*) FROM pravo WHERE zaposlenik_id = @zaposlenikId AND pravo_id = 2";
+                    int zaposlenikId = prijava.zap_id;
+                    using (MySqlCommand naredba = new MySqlCommand(sqlUpit, veza))
+                    {
+                        naredba.Parameters.AddWithValue("@zaposlenikId", zaposlenikId);
+
+                        int brojPrava = Convert.ToInt32(naredba.ExecuteScalar());
+
+                        if (brojPrava > 0)
+                        {
+                        }
+                        else
+                        {
+                            MessageBox.Show("Prijavljeni zaposlenik nema pravo ove radnje.");
+                            OnemoguciTipke();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Greška prilikom provjere prava: {ex.Message}");
+            }
+        }
+
+        private void OnemoguciTipke()
+        {
+            foreach (Control ctrl in this.Controls)
+            {
+                if (ctrl is Button)
+                {
+                    Button button = (Button)ctrl;
+                    button.Enabled = false;
+                }
+            }
         }
         private string HashLozinku(string lozinka)
         {
@@ -67,15 +114,6 @@ namespace ZR_BLAGAJNA_NT {
             }
         }
 
-        // Primjer korištenja prilikom dodavanja zaposlenika
-        private void DodajZaposlenika(string korisnickoIme, string lozinka)
-        {
-            // Hashiraj lozinku prije spremanja u bazu podataka
-            string hashLozinka = HashLozinku(lozinka);
-
-            // Spremi zaposlenika u bazu podataka s hashiranom lozinkom
-            // Ovdje dodajte odgovarajuće SQL naredbe za unos u bazu podataka
-        }
 
         private void PostaviPocetno()
         {
@@ -90,7 +128,8 @@ namespace ZR_BLAGAJNA_NT {
             PopuniComboBoxSaIDovima();
             ResetirajAutoIncrement();  
             PrikaziSljedeciIDZaposlenika();  
-            PopuniPravima();  
+            PopuniPravima();
+            ProvjeriPravo();
 
         }
         private void PopuniListViewZaposlenici()
@@ -460,7 +499,7 @@ namespace ZR_BLAGAJNA_NT {
         // Metoda za ažuriranje podataka zaposlenika
         private void AzurirajPodatkeZaposlenika(int id, string ime, string prezime, string korisnickoIme, string lozinka)
         {
-            string sqlUpit = "UPDATE Zaposlenici SET ime = @ime, prezime = @prezime, korisnicko_ime = @korisnickoIme, lozinka = @lozinka, prva_prijava=1 WHERE id = @id";
+            string sqlUpit = "UPDATE Zaposlenici SET ime = @ime, prezime = @prezime, korisnicko_ime = @korisnickoIme, prva_prijava=0 WHERE id = @id";
             using (MySqlConnection veza = new MySqlConnection(upraviteljBazom.VezaNaBazu))
             {
 
@@ -471,7 +510,6 @@ namespace ZR_BLAGAJNA_NT {
                     naredba.Parameters.AddWithValue("@ime", ime);
                     naredba.Parameters.AddWithValue("@prezime", prezime);
                     naredba.Parameters.AddWithValue("@korisnickoIme", korisnickoIme);
-                    naredba.Parameters.AddWithValue("@lozinka", lozinka);
 
                     int affectedRows = naredba.ExecuteNonQuery();
 

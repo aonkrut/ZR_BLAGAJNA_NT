@@ -228,6 +228,7 @@ namespace ZR_BLAGAJNA_NT {
             this.prijavljenzaposlenik.Size = new System.Drawing.Size(77, 17);
             this.prijavljenzaposlenik.TabIndex = 47;
             this.prijavljenzaposlenik.Text = "Zaposlenik";
+            this.prijavljenzaposlenik.Click += new System.EventHandler(this.prijavljenzaposlenik_Click);
             // 
             // label7
             // 

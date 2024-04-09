@@ -24,11 +24,58 @@ namespace ZR_BLAGAJNA_NT {
             tb_naziv.Text = "";
             tb_adresa.Text = "";
             tb_kontakt.Text = "";
+            ProvjeriPravo();
             ResetirajAutoIncrement();
             PopuniListViewDobavljaci();
             PopuniComboBoxSaIDovima();
             PrikaziSljedeciIDDobavljaci();
+            
+        }
+        private void ProvjeriPravo()
+        {
+            try
+            {
 
+
+                using (MySqlConnection veza = new MySqlConnection(upraviteljBazom.VezaNaBazu))
+                {
+                    veza.Open();
+
+                    string sqlUpit = "SELECT COUNT(*) FROM pravo WHERE zaposlenik_id = @zaposlenikId AND pravo_id = 3";
+                    int zaposlenikId = prijava.zap_id;
+                    using (MySqlCommand naredba = new MySqlCommand(sqlUpit, veza))
+                    {
+                        naredba.Parameters.AddWithValue("@zaposlenikId", zaposlenikId);
+
+                        int brojPrava = Convert.ToInt32(naredba.ExecuteScalar());
+
+                        if (brojPrava > 0)
+                        {
+                        }
+                        else
+                        {
+                            MessageBox.Show("Prijavljeni zaposlenik nema pravo ove radnje.");
+                            OnemoguciTipke();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Greška prilikom provjere prava: {ex.Message}");
+            }
+        }
+
+        private void OnemoguciTipke()
+        {
+            foreach (Control ctrl in this.Controls)
+            {
+                if (ctrl is Button)
+                {
+                    Button button = (Button)ctrl;
+                    button.Enabled = false;
+                }
+            }
         }
         private void PopuniListViewDobavljaci()
         {
