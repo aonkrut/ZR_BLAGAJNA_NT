@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 26, 2024 at 12:38 PM
+-- Generation Time: Apr 10, 2024 at 12:02 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -52,6 +52,17 @@ CREATE TABLE `prava` (
   `pravo` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `prava`
+--
+
+INSERT INTO `prava` (`id`, `pravo`) VALUES
+(1, 'blagajna'),
+(3, 'dobavljaci'),
+(4, 'proizvodi'),
+(5, 'racuni'),
+(2, 'zaposlenici');
+
 -- --------------------------------------------------------
 
 --
@@ -63,6 +74,26 @@ CREATE TABLE `pravo` (
   `zaposlenik_id` int(11) DEFAULT NULL,
   `pravo_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `pravo`
+--
+
+INSERT INTO `pravo` (`id`, `zaposlenik_id`, `pravo_id`) VALUES
+(19, 2, 3),
+(20, 2, 4),
+(21, 2, 5),
+(22, 1, 1),
+(23, 1, 3),
+(24, 1, 4),
+(25, 1, 5),
+(27, 1, 2),
+(34, 4, 1),
+(35, 4, 4),
+(36, 3, 1),
+(37, 3, 3),
+(38, 3, 4),
+(39, 3, 5);
 
 -- --------------------------------------------------------
 
@@ -85,8 +116,8 @@ CREATE TABLE `proizvodi` (
 --
 
 INSERT INTO `proizvodi` (`id`, `barcode`, `naziv`, `cijena`, `kol_na_sklad`, `min_kol`, `dobavljac_id`) VALUES
-(1, '111', '1', 1.00, 10, 5, 1),
-(2, '2', '2', 2.00, 219, 22, 1);
+(1, '111', '1', 1.00, 5, 5, 1),
+(2, '2', '2', 2.00, 217, 22, 1);
 
 -- --------------------------------------------------------
 
@@ -113,7 +144,57 @@ INSERT INTO `racun` (`id`, `zaposlenik_id`, `datum_izdavanja`) VALUES
 (6, 1, '2024-02-26 12:33:56'),
 (7, 1, '2024-02-26 12:34:25'),
 (8, 1, '2024-02-26 12:34:25'),
-(9, 1, '2024-02-26 12:35:29');
+(9, 1, '2024-02-26 12:35:29'),
+(10, 1, '2024-02-26 12:50:27'),
+(11, 1, '2024-02-26 12:51:40'),
+(12, 1, '2024-02-26 12:52:38'),
+(13, 1, '2024-02-26 12:54:32'),
+(14, 1, '2024-04-05 12:54:03'),
+(15, 1, '2024-04-05 12:54:06'),
+(16, 1, '2024-04-05 12:54:07'),
+(17, 1, '2024-04-05 12:54:09'),
+(18, 1, '2024-04-05 12:54:10'),
+(19, 1, '2024-04-05 13:01:09'),
+(20, 1, '2024-04-05 13:02:58'),
+(21, 1, '2024-04-05 13:18:15'),
+(22, 1, '2024-04-05 13:19:20'),
+(23, 1, '2024-04-09 22:47:47'),
+(24, 1, '2024-04-09 22:47:51'),
+(25, 1, '2024-04-09 22:57:08'),
+(27, 1, '2024-04-09 23:01:58'),
+(28, 1, '2024-04-09 23:02:44'),
+(29, 1, '2024-04-09 23:05:28'),
+(30, 1, '2024-04-09 23:08:37'),
+(31, 1, '2024-04-09 23:09:59'),
+(32, 1, '2024-04-09 23:09:59'),
+(33, 1, '2024-04-09 23:13:14'),
+(34, 1, '2024-04-09 23:16:30'),
+(35, 1, '2024-04-09 23:20:04'),
+(36, 1, '2024-04-09 23:21:34'),
+(37, 1, '2024-04-09 23:22:41'),
+(38, 1, '2024-04-09 23:24:23'),
+(39, 1, '2024-04-09 23:25:42'),
+(40, 1, '2024-04-09 23:27:01'),
+(41, 1, '2024-04-09 23:27:15'),
+(42, 1, '2024-04-09 23:28:50'),
+(43, 2, '2024-04-09 23:29:31'),
+(44, 2, '2024-04-09 23:29:54'),
+(45, 1, '2024-04-09 23:40:22'),
+(46, 2, '2024-04-09 23:40:41'),
+(47, 2, '2024-04-09 23:46:01'),
+(48, 1, '2024-04-09 23:49:29'),
+(49, 2, '2024-04-09 23:50:29'),
+(50, 1, '2024-04-09 23:51:10'),
+(51, 1, '2024-04-09 23:51:18'),
+(52, 1, '2024-04-09 23:51:37'),
+(53, 3, '2024-04-09 23:52:26'),
+(54, 1, '2024-04-09 23:53:22'),
+(55, 3, '2024-04-09 23:54:09'),
+(56, 1, '2024-04-09 23:55:29'),
+(57, 3, '2024-04-09 23:55:38'),
+(58, 3, '2024-04-09 23:56:51'),
+(59, 4, '2024-04-09 23:59:16'),
+(60, 4, '2024-04-09 23:59:42');
 
 -- --------------------------------------------------------
 
@@ -157,7 +238,57 @@ INSERT INTO `status_racuna` (`id`, `racun_id`, `status_id`) VALUES
 (6, 6, 4),
 (7, 7, 2),
 (8, 8, 4),
-(9, 9, 4);
+(9, 9, 4),
+(10, 10, 4),
+(11, 11, 4),
+(12, 12, 4),
+(13, 13, 4),
+(14, 14, 4),
+(15, 15, 4),
+(16, 16, 4),
+(17, 17, 4),
+(18, 18, 4),
+(19, 19, 4),
+(20, 20, 4),
+(21, 21, 4),
+(22, 22, 4),
+(23, 23, 4),
+(24, 24, 4),
+(25, 25, 4),
+(27, 27, 4),
+(28, 28, 4),
+(29, 29, 4),
+(30, 30, 4),
+(31, 31, 2),
+(32, 32, 4),
+(33, 33, 4),
+(34, 34, 4),
+(35, 35, 4),
+(36, 36, 4),
+(37, 37, 4),
+(38, 38, 4),
+(39, 39, 4),
+(40, 40, 4),
+(41, 41, 4),
+(42, 42, 4),
+(43, 43, 4),
+(44, 44, 4),
+(45, 45, 4),
+(46, 46, 4),
+(47, 47, 4),
+(48, 48, 4),
+(49, 49, 4),
+(50, 50, 4),
+(51, 51, 4),
+(52, 52, 4),
+(53, 53, 4),
+(54, 54, 4),
+(55, 55, 4),
+(56, 56, 4),
+(57, 57, 4),
+(58, 58, 4),
+(59, 59, 4),
+(60, 60, 4);
 
 -- --------------------------------------------------------
 
@@ -182,7 +313,9 @@ INSERT INTO `stavkaracuna` (`id`, `proizvod_id`, `kolicina`, `cijena_po_jedinici
 (2, 2, 10, 2.00, 5),
 (3, 1, 3, 1.00, 7),
 (4, 2, 3, 2.00, 7),
-(5, 1, -3, 1.00, 7);
+(5, 1, -3, 1.00, 7),
+(6, 1, 5, 1.00, 31),
+(7, 2, 2, 2.00, 31);
 
 -- --------------------------------------------------------
 
@@ -204,7 +337,10 @@ CREATE TABLE `zaposlenici` (
 --
 
 INSERT INTO `zaposlenici` (`id`, `ime`, `prezime`, `korisnicko_ime`, `lozinka`, `prva_prijava`) VALUES
-(1, '1', '1', '1', '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b', 0);
+(1, '1', '1', '1', '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b', 0),
+(2, 'Noa', 'Turk', 'Turk', '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b', 0),
+(3, 'tri', 'tri', 'tri', '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b', 0),
+(4, '44', '44', '44', '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b', 0);
 
 --
 -- Indexes for dumped tables
@@ -289,13 +425,13 @@ ALTER TABLE `dobavljaci`
 -- AUTO_INCREMENT for table `prava`
 --
 ALTER TABLE `prava`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `pravo`
 --
 ALTER TABLE `pravo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `proizvodi`
@@ -307,7 +443,7 @@ ALTER TABLE `proizvodi`
 -- AUTO_INCREMENT for table `racun`
 --
 ALTER TABLE `racun`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `status`
@@ -319,19 +455,19 @@ ALTER TABLE `status`
 -- AUTO_INCREMENT for table `status_racuna`
 --
 ALTER TABLE `status_racuna`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `stavkaracuna`
 --
 ALTER TABLE `stavkaracuna`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `zaposlenici`
 --
 ALTER TABLE `zaposlenici`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
